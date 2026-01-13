@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
+import 'screens/privacy_policy_screen.dart';
 import 'widgets/splash_screen.dart';
 
 void main() {
@@ -43,7 +44,12 @@ class _MecabAppState extends State<MecabApp> {
         scaffoldBackgroundColor: const Color(0xFF000000),
         useMaterial3: true,
       ),
-      home: _showSplash ? const SplashScreen() : const HomeScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) =>
+            _showSplash ? const SplashScreen() : const HomeScreen(),
+        '/privacy-policy': (context) => const PrivacyPolicyScreen(),
+      },
     );
   }
 }
