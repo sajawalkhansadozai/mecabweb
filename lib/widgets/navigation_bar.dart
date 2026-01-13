@@ -4,8 +4,13 @@ import '../constants/text_styles.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   final Function(String) onNavigate;
+  final VoidCallback? onPrivacyTap;
 
-  const CustomNavigationBar({super.key, required this.onNavigate});
+  const CustomNavigationBar({
+    super.key,
+    required this.onNavigate,
+    this.onPrivacyTap,
+  });
 
   @override
   State<CustomNavigationBar> createState() => _CustomNavigationBarState();
@@ -81,6 +86,10 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                       _NavLink('Features', () => widget.onNavigate('features')),
                       const SizedBox(width: 32),
                       _NavLink('Contact', () => widget.onNavigate('contact')),
+                      if (widget.onPrivacyTap != null) ...[
+                        const SizedBox(width: 32),
+                        _NavLink('Privacy', widget.onPrivacyTap!),
+                      ],
                       const SizedBox(width: 32),
                       const _BookNowButton(),
                     ],
@@ -132,6 +141,11 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                     widget.onNavigate('contact');
                     setState(() => _isMenuOpen = false);
                   }),
+                  if (widget.onPrivacyTap != null)
+                    _MobileNavLink('Privacy', () {
+                      widget.onPrivacyTap!();
+                      setState(() => _isMenuOpen = false);
+                    }),
                 ],
               ),
             ),

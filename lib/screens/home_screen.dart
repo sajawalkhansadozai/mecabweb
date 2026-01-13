@@ -9,6 +9,7 @@ import '../widgets/testimonials_enhanced_section.dart';
 import '../widgets/download_app_enhanced_section.dart';
 import '../widgets/contact_section.dart';
 import '../widgets/footer_section.dart';
+import 'privacy_policy_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -41,6 +42,12 @@ class _HomeScreenState extends State<HomeScreen> {
         curve: Curves.easeInOut,
       );
     }
+  }
+
+  void _openPrivacyPolicy() {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const PrivacyPolicyScreen()));
   }
 
   @override
@@ -97,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
 
                   // Footer Section
-                  const FooterSection(),
+                  FooterSection(onPrivacyTap: _openPrivacyPolicy),
                 ],
               ),
             ),
@@ -109,7 +116,10 @@ class _HomeScreenState extends State<HomeScreen> {
               right: 0,
               child: SafeArea(
                 bottom: false,
-                child: CustomNavigationBar(onNavigate: _scrollToSection),
+                child: CustomNavigationBar(
+                  onNavigate: _scrollToSection,
+                  onPrivacyTap: _openPrivacyPolicy,
+                ),
               ),
             ),
           ],

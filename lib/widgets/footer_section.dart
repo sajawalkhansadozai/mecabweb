@@ -3,7 +3,9 @@ import '../constants/colors.dart';
 import '../constants/text_styles.dart';
 
 class FooterSection extends StatelessWidget {
-  const FooterSection({super.key});
+  final VoidCallback onPrivacyTap;
+
+  const FooterSection({super.key, required this.onPrivacyTap});
 
   @override
   Widget build(BuildContext context) {
@@ -26,28 +28,36 @@ class FooterSection extends StatelessWidget {
                 title: 'MECAB',
                 isBrand: true,
                 items: const [
-                  'MECAB – Luxury Chauffeur & E-Cab Services. Premium chauffeur-driven electric and luxury vehicles for airport transfers, corporate travel, city rides, and events.',
+                  _FooterItem(
+                    text:
+                        'MECAB - Luxury Chauffeur & E-Cab Services. Premium chauffeur-driven electric and luxury vehicles for airport transfers, corporate travel, city rides, and events.',
+                  ),
                 ],
               ),
               _FooterColumn(
                 title: 'Quick Links',
-                items: const ['About Us', 'Services', 'Careers', 'Blog'],
+                items: const [
+                  _FooterItem(text: 'About Us'),
+                  _FooterItem(text: 'Services'),
+                  _FooterItem(text: 'Careers'),
+                  _FooterItem(text: 'Blog'),
+                ],
               ),
               _FooterColumn(
                 title: 'Support',
-                items: const [
-                  'Help Center',
-                  'Safety',
-                  'Terms of Service',
-                  'Privacy Policy',
+                items: [
+                  const _FooterItem(text: 'Help Center'),
+                  const _FooterItem(text: 'Safety'),
+                  const _FooterItem(text: 'Terms of Service'),
+                  _FooterItem(text: 'Privacy Policy', onTap: onPrivacyTap),
                 ],
               ),
               _FooterColumn(
                 title: 'Contact',
                 items: const [
-                  '📧 support@mecab.co',
-                  '📱 +92 329 121 9999',
-                  '📍 Pakistan',
+                  _FooterItem(text: 'support@mecab.co'),
+                  _FooterItem(text: '+92 329 121 9999'),
+                  _FooterItem(text: 'Pakistan'),
                 ],
               ),
             ],
@@ -78,7 +88,7 @@ class FooterSection extends StatelessWidget {
 
 class _FooterColumn extends StatelessWidget {
   final String title;
-  final List<String> items;
+  final List<_FooterItem> items;
   final bool isBrand;
 
   const _FooterColumn({
@@ -110,16 +120,34 @@ class _FooterColumn extends StatelessWidget {
           ...items.map(
             (item) => Padding(
               padding: const EdgeInsets.only(bottom: 8),
-              child: Text(
-                item,
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.textGray400,
-                ),
-              ),
+              child: item.onTap != null
+                  ? InkWell(
+                      onTap: item.onTap,
+                      child: Text(
+                        item.text,
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.textGray400,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    )
+                  : Text(
+                      item.text,
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.textGray400,
+                      ),
+                    ),
             ),
           ),
         ],
       ),
     );
   }
+}
+
+class _FooterItem {
+  final String text;
+  final VoidCallback? onTap;
+
+  const _FooterItem({required this.text, this.onTap});
 }
